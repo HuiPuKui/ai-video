@@ -1,101 +1,90 @@
-import React from 'react'
-import { mix } from '../engine'
+// Clawd：按原图像素比例重建。公 = 原色；母 = 更粉 + 发夹。
+// 网格 1 单位 = 1 像素。锚点在身体底部中心 (0, 0)，脚底约 y=16。
+import { rectsPath, rng, clamp } from '../lib/math.js';
 
-/**
- * Clawd —— 像素小方怪。坐标原点 = 双脚中点（地面），单位 u 像素。
- * kind: 'he'(红·男) | 'she'(粉·女)
- * look: 'pixel' | 'paper' | 'neon'
- * pose: { squash, hop, lean, dir, eyeX, eyeY, blink, armL, armR, step, blush, mood:'normal'|'sad'|'love'|'happy', alpha }
- */
-export const PALETTE = {
-  he: { body: '#E8553E', light: '#FF8A6B', dark: '#B43A2A', acc: '#FFD7C9' },
-  she: { body: '#F49AB8', light: '#FFC6D9', dark: '#CF6C91', acc: '#D6336C' },
+const PAL = {
+  m: {
+    body: '#CC8B89', hi: '#E09D9B', arm: '#E9BBBA', leg: '#E09B9B',
+    shade: '#956564', eye: '#0c0a0b', clip: null,
+  },
+  f: {
+    body: '#F4A8C2', hi: '#F8C2D4', arm: '#F6B7CC', leg: '#F0A0B8',
+    shade: '#C97A93', eye: '#3a2030', clip: '#FF4F8B',
+  },
+};
+
+const BW = 112, BH = 56; // 身体宽高
+
+function build() {
+  const body = [[-BW / 2, -BH, BW, BH]];
+  const arm = (s) => [[s * (BW / 2), -BH + 15, s * 12, 12]];
+  const legs = (s) => [[s * 10, 4, 8, 12], [s * 22, 4, 8, 12]];
+  const eyes = [[-9, -BH + 16, 6, 10], [3, -BH + 16, 6, 10]];
+  const shade = [[-9, -BH + 15, 6, 1], [3, -BH + 15, 6, 1]];
+  return { body, armL: arm(-1), armR: arm(1), legsL: legs(-1), legsR: legs(1), eyes, shade };
 }
+const PARTS = build();
 
-export function Clawd({ x, y, u = 14, kind = 'he', look = 'pixel', pose = {}, id = kind }) {
-  const P = PALETTE[kind]
-  const {
-    squash = 0, hop = 0, lean = 0, dir = 1, eyeX = 0, eyeY = 0, blink = 0,
-    armL = 0, armR = 0, step = 0, blush = 0, mood = 'normal', alpha = 1, glow = 1,
-  } = pose
-  const sy = 1 - squash, sx = 1 + squash * 0.6
-  const legLift = i => (step ? Math.max(0, Math.sin(step * Math.PI * 2 + (i % 2) * Math.PI)) * 0.8 : 0)
-  const neon = look === 'neon'
-  const paper = look === 'paper'
-  const fill = neon ? mix(P.dark, '#000000', 0.55) : P.body
-  const stroke = neon ? P.light : paper ? '#FFF8EE' : 'none'
-  const sw = neon ? 0.28 : paper ? 0.55 : 0
-  const R = (props) => <rect {...props} fill={props.fill ?? fill} stroke={stroke} strokeWidth={sw} strokeLinejoin="round" />
+// 身体上可拆下的粉色像素（伏笔：她在把自己拆给这个世界）
+function shedPixels() {
+  const r = rng(7);
+  const out = [];
+  for (let i = 0; i < 34; i++) {
+    const x = Math.floor(r() * (BW - 6)) - BW / 2 + 2;
+    const y = Math.floor(r() * (BH - 6)) - BH + 2;
+    const nearEye = (Math.abs(x + 6) < 10 || Math.abs(x - 6) < 10) && y > -BH + 13 && y < -BH + 30;
+    if (nearEye) continue;
+    out.push({ x, y, w: 2 + Math.floor(r() * 2), h: 2, d: r() });
+  }
+  return out;
+}
+const SHED = shedPixels();
 
-  const eyeH = blink ? 0.25 : mood === 'sad' ? 1.2 : mood === 'happy' ? 0.6 : 2
-  const eyeTop = -8.1 + (2 - eyeH) * (mood === 'sad' ? 1 : 0.5) + eyeY
-  const eyes = mood === 'love'
-    ? [-2.6, 2.6].map((ex, i) => (
-        <g key={i} transform={`translate(${ex + eyeX} ${-7.3 + eyeY})`} fill={neon ? '#FF5E8A' : '#E0244F'}>
-          <rect x={-0.9} y={-0.9} width={0.8} height={0.8} /><rect x={0.1} y={-0.9} width={0.8} height={0.8} />
-          <rect x={-0.9} y={-0.2} width={1.8} height={0.7} /><rect x={-0.5} y={0.4} width={1} height={0.6} />
-        </g>))
-    : [-2.6, 2.6].map((ex, i) => (
-        <rect key={i} x={ex - 0.5 + eyeX} y={eyeTop} width={1} height={eyeH}
-          fill={neon ? '#FFFFFF' : '#1A1420'} />))
+export function Clawd({
+  x = 0, y = 0, scale = 1, sex = 'm',
+  squash = 1, bob = 0, blink = 0, look = 0,
+  walk = 0, arm = 0, lean = 0, opacity = 1,
+  missing = 0, clip = true, glow = 0,
+}) {
+  const pal = PAL[sex];
+  const sy = squash, sx = 1 / Math.sqrt(Math.max(0.6, squash));
+  const eyeH = 10 * (1 - 0.92 * clamp(blink));
+  const eyeY = -BH + 16 + (10 - eyeH);
+  const pupil = clamp(look, -1.4, 1.4);
+  const step = Math.sin(walk * Math.PI * 2);
+  const legL = step * 3.2, legR = -step * 3.2;
+  const armL = Math.sin(walk * Math.PI * 2 + 0.4) * 2 + arm * 6;
+  const armR = -Math.sin(walk * Math.PI * 2 + 0.4) * 2 - arm * 3;
+
+  let shed = null;
+  if (missing > 0) {
+    const gone = SHED.filter((p) => p.d < missing);
+    shed = gone.length ? rectsPath(gone.map((p) => [p.x, p.y, p.w, p.h])) : null;
+  }
+
+  const g = (parts, dx = 0, dy = 0) => rectsPath(parts.map(([a, b, w, h]) => [a + dx, b + dy, w, h]));
 
   return (
-    <g transform={`translate(${x} ${y - hop}) rotate(${lean}) scale(${u * dir * sx} ${u * sy})`} opacity={alpha}>
-      {paper && <ellipse cx={0} cy={0.25} rx={7} ry={0.9} fill="#000" opacity={0.18} />}
-      {!paper && !neon && <ellipse cx={0} cy={0.15} rx={6.5} ry={0.6} fill="#000" opacity={0.25} />}
-      <g filter={neon ? `url(#neonGlow-${kind})` : paper ? 'url(#paperShadow)' : undefined}>
-        {/* legs */}
-        {[-4.6, -2.6, 1.6, 3.6].map((lx, i) => (
-          <R key={i} x={lx} y={-2.2 - legLift(i)} width={1} height={2.2} fill={neon ? fill : P.dark} />
-        ))}
-        {/* arms */}
-        <R x={-7.6} y={-5.6 - armL * 2.2} width={1.8} height={1.8} />
-        <R x={5.8} y={-5.6 - armR * 2.2} width={1.8} height={1.8} />
-        {/* body */}
-        <R x={-6} y={-9} width={12} height={7} rx={paper ? 0.6 : 0} />
-        {!neon && <>
-          <rect x={-6} y={-3} width={12} height={1} fill={P.dark} opacity={0.55} />
-          <rect x={-5} y={-8.6} width={3.2} height={0.7} fill={P.light} opacity={0.9} />
-          <rect x={-5.4} y={-8.6} width={0.7} height={1.6} fill={P.light} opacity={0.9} />
-        </>}
-        {/* bow for her */}
-        {kind === 'she' && (
-          <g transform="translate(3.4 -9.4)">
-            <R x={-1.9} y={-1.1} width={1.6} height={2} fill={neon ? fill : P.acc} />
-            <R x={0.3} y={-1.1} width={1.6} height={2} fill={neon ? fill : P.acc} />
-            <R x={-0.45} y={-0.6} width={0.9} height={1} fill={neon ? fill : mix(P.acc, '#ffffff', 0.25)} />
-          </g>
-        )}
-        {/* antenna sprout for him */}
-        {kind === 'he' && (
-          <g transform="translate(-3.6 -9)">
-            <R x={-0.35} y={-1.4} width={0.7} height={1.4} fill={neon ? fill : P.dark} />
-            <R x={-0.8} y={-2.3} width={1.6} height={1} fill={neon ? fill : '#FFC94A'} />
-          </g>
-        )}
-        {eyes}
-        {blush > 0 && [-4.2, 3.1].map((bx, i) => (
-          <rect key={i} x={bx} y={-5.6} width={1.1} height={0.6} fill="#FF4F7A" opacity={0.75 * blush} />
-        ))}
-      </g>
+    <g transform={`translate(${x.toFixed(2)} ${(y + bob).toFixed(2)}) scale(${(scale * sx).toFixed(3)} ${(scale * sy).toFixed(3)}) rotate(${lean.toFixed(2)})`} opacity={opacity}>
+      {glow > 0 && <rect x={-BW / 2 - 6} y={-BH - 6} width={BW + 12} height={BH + 26} fill={sex === 'f' ? '#ffd0e0' : '#e7cfc8'} opacity={0.35 * glow} />}
+      <path d={g(PARTS.legsL, 0, legL)} fill={pal.leg} />
+      <path d={g(PARTS.legsR, 0, legR)} fill={pal.leg} />
+      <path d={g(PARTS.armL, armL * 0.3, armL)} fill={pal.arm} />
+      <path d={g(PARTS.armR, -armR * 0.3, armR)} fill={pal.arm} />
+      <path d={g(PARTS.body)} fill={pal.body} />
+      <path d={rectsPath([[-BW / 2, -BH, 4, BH], [BW / 2 - 3, -BH + 8, 3, 10]])} fill={pal.hi} opacity="0.85" />
+      <path d={g(PARTS.shade)} fill={pal.shade} />
+      <path d={rectsPath([[-9 + pupil, eyeY, 6, eyeH], [3 + pupil, eyeY, 6, eyeH]])} fill={pal.eye} />
+      {sex === 'f' && clip && (
+        <g>
+          <rect x={14} y={-BH - 7} width={16} height={5} fill={pal.clip} />
+          <rect x={18} y={-BH - 11} width={8} height={5} fill={pal.clip} />
+          <rect x={20} y={-BH - 13} width={4} height={3} fill="#fff4f8" />
+        </g>
+      )}
+      {shed && <path d={shed} fill="#f4efe6" />}
     </g>
-  )
+  );
 }
 
-/** 每种风格共用的 SVG defs（滤镜） */
-export function ClawdDefs() {
-  return (
-    <>
-      <filter id="paperShadow" x="-30%" y="-30%" width="160%" height="160%">
-        <feDropShadow dx="0" dy="0.5" stdDeviation="0.35" floodColor="#3A2340" floodOpacity="0.35" />
-      </filter>
-      {['he', 'she'].map(k => (
-        <filter key={k} id={`neonGlow-${k}`} x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" result="b1" />
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="b2" />
-          <feMerge><feMergeNode in="b2" /><feMergeNode in="b1" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-      ))}
-    </>
-  )
-}
+export const CLAWD = { BW, BH };

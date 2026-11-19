@@ -1,0 +1,8 @@
+// vite.config.js
+import { defineConfig } from "file:///sessions/eager-zealous-knuth/mnt/ai-video/%E6%8A%8A%E5%9B%9E%E5%BF%86%E6%8B%BC%E5%A5%BD%E7%BB%99%E4%BD%A0/mv/node_modules/vite/dist/node/index.js";
+import react from "file:///sessions/eager-zealous-knuth/mnt/ai-video/%E6%8A%8A%E5%9B%9E%E5%BF%86%E6%8B%BC%E5%A5%BD%E7%BB%99%E4%BD%A0/mv/node_modules/@vitejs/plugin-react/dist/index.js";
+var vite_config_default = defineConfig({ plugins: [react()], base: "./" });
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcuanMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvc2Vzc2lvbnMvZWFnZXItemVhbG91cy1rbnV0aC9tbnQvYWktdmlkZW8vXHU2MjhBXHU1NkRFXHU1RkM2XHU2MkZDXHU1OTdEXHU3RUQ5XHU0RjYwL212XCI7Y29uc3QgX192aXRlX2luamVjdGVkX29yaWdpbmFsX2ZpbGVuYW1lID0gXCIvc2Vzc2lvbnMvZWFnZXItemVhbG91cy1rbnV0aC9tbnQvYWktdmlkZW8vXHU2MjhBXHU1NkRFXHU1RkM2XHU2MkZDXHU1OTdEXHU3RUQ5XHU0RjYwL212L3ZpdGUuY29uZmlnLmpzXCI7Y29uc3QgX192aXRlX2luamVjdGVkX29yaWdpbmFsX2ltcG9ydF9tZXRhX3VybCA9IFwiZmlsZTovLy9zZXNzaW9ucy9lYWdlci16ZWFsb3VzLWtudXRoL21udC9haS12aWRlby8lRTYlOEElOEElRTUlOUIlOUUlRTUlQkYlODYlRTYlOEIlQkMlRTUlQTUlQkQlRTclQkIlOTklRTQlQkQlQTAvbXYvdml0ZS5jb25maWcuanNcIjtpbXBvcnQgeyBkZWZpbmVDb25maWcgfSBmcm9tICd2aXRlJztcbmltcG9ydCByZWFjdCBmcm9tICdAdml0ZWpzL3BsdWdpbi1yZWFjdCc7XG5leHBvcnQgZGVmYXVsdCBkZWZpbmVDb25maWcoeyBwbHVnaW5zOiBbcmVhY3QoKV0sIGJhc2U6ICcuLycgfSk7XG4iXSwKICAibWFwcGluZ3MiOiAiO0FBQXlZLFNBQVMsb0JBQW9CO0FBQ3RhLE9BQU8sV0FBVztBQUNsQixJQUFPLHNCQUFRLGFBQWEsRUFBRSxTQUFTLENBQUMsTUFBTSxDQUFDLEdBQUcsTUFBTSxLQUFLLENBQUM7IiwKICAibmFtZXMiOiBbXQp9Cg==
