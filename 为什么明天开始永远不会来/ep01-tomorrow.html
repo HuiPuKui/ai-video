@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>第 01 期 · 为什么"明天开始"永远不会来</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;width:100vw;height:auto}</style></head>
+<body><canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// 普通人的决策工具箱 · 第 01 期 · 双曲贴现 · 168 拍
+// 字幕按拍计：[起拍, 止拍, 中文, 英文]。三处重音在第 2、78、152 拍。
+const EP = {
+  BEATS: 168, NO: '01',
+  SCENES: [],
+  TOPLABELS: [
+    [14, 30, '一个星期的计划'],
+    [30, 62, '两道选择题'],
+    [62, 94, '对质'],
+    [94, 112, '三份原文'],
+    [112, 128, '为什么会这样'],
+    [128, 144.4, '一个问法']
+  ],
+  NOTES: [
+    [14, 30, '示意'],
+    [106, 112, '示意，不是实验数据 · Thaler, 1981']
+  ],
+  SUBS: [
+    [0.2, 2, '你答应过自己多少次「明天开始」', 'How many times did you promise yourself "tomorrow"?'],
+    [2, 4, '一次都没算数', 'Not once did it count.'],
+    [11, 14, '先别划走，这期要你做两道选择题', "Don't scroll. Two questions coming."],
+    [14, 18, '计划写了七张', 'Seven notes. One plan.'],
+    [18, 22, '每一张都写着同一句话', 'Every one says the same thing.'],
+    [22, 26, '周一到周日，一个字没改', 'Monday to Sunday. Not a word changed.'],
+    [26, 30, '然后你把它们全抽走了', 'Then you pulled them all away.'],
+    [34, 42, '你选哪一张', 'Which one do you take?'],
+    [42, 46, '记住你的答案，先别告诉自己理由', "Hold that answer. Don't explain it yet."],
+    [46, 50, '再来一次。数字没变', "Once more. The numbers didn't change."],
+    [50, 58, '这一次你选哪张', 'Which one now?'],
+    [58, 62, '两道题都答完了', 'Both answered.'],
+    [62, 66, '上下两排，差额都是 10', 'Both rows. The gap is 10.'],
+    [66, 70, '多等的都只是 1 天', 'The extra wait is one day. Both times.'],
+    [70, 74, '你两次都选了同一边吗', "Did you pick the same side twice?"],
+    [74, 78, '把两个选项都往后推 30 天，你改选了吗', 'Did your choice change when both dates moved back 30 days?'],
+    [82, 86, '近的时候要马上拿到，远的时候又愿意等', 'Impatient up close. Patient from far away.'],
+    [86, 90, '这不叫意志力差。这叫偏好反转', "That isn't weak willpower. It's a preference reversal."],
+    [94, 100, '36 个人里，34 个改了口', '34 out of 36 switched.'],
+    [100, 106, '先选健康的 99 人，一周后 70 人改了口', '99 chose healthy. A week later, 70 took it back.'],
+    [106, 112, '一天之差。换一个时间问，答案就反过来', "One day's difference. Ask at another time, the answer flips."],
+    [112, 116, '等待的痛苦，不是均匀摊开的', "The pain of waiting isn't spread evenly."],
+    [116, 120, '它几乎全堆在离现在最近的那一天', 'Nearly all of it sits in the day closest to now.'],
+    [120, 124, '所以 30 天后看，多等一天不算什么', 'From 30 days away, one more day is nothing.'],
+    [124, 128, '走到跟前，那一天就变得过不去', 'Up close, that one day becomes impossible.'],
+    [128, 132, '与其问自己要不要现在做', "Don't ask whether to do it now."],
+    [132, 136, '换成问：30 天后的我选哪个', 'Ask what the you in 30 days would pick.'],
+    [136, 140, '你刚才那两道题，已经替你答过了', 'Your two answers already settled it.'],
+    [140, 146, '远的那个你，比现在的你更老实', 'The distant you is the more honest one.'],
+    [162, 163.4, '是哪一天？', 'Which day was it?']
+  ]
+};
+</script>
+<script src="kit/lib.js"></script>
+<script>
+const PEN = 'rgba(214,40,40,0.9)';
+// 红笔圈：k 从 0 画到 1，绕一圈多一点，半径带一点抖动，看起来是手画的
+function penLoop(cx, cy, rx, ry, k, tilt) {
+  if (k <= 0) return;
+  ctx.save();
+  ctx.strokeStyle = PEN; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath();
+  const n = Math.max(2, Math.floor(k * 60));
+  for (let i = 0; i <= n; i++) {
+    const u = i / 60, a = -1.15 + u * 7.1;
+    const wob = 1 + Math.sin(u * 9.4) * .05;
+    const px = cx + Math.cos(a) * rx * wob, py = cy + Math.sin(a) * ry * wob;
+    const ca = Math.cos(tilt), sa = Math.sin(tilt);
+    i ? ctx.lineTo(cx + (px - cx) * ca - (py - cy) * sa, cy + (px - cx) * sa + (py - cy) * ca)
+      : ctx.moveTo(cx + (px - cx) * ca - (py - cy) * sa, cy + (px - cx) * sa + (py - cy) * ca);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function penSlash(x1, y1, x2, y2, k) {
+  if (k <= 0) return;
+  ctx.save(); ctx.strokeStyle = PEN; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + (x2 - x1) * k, y1 + (y2 - y1) * k); ctx.stroke();
+  ctx.restore();
+}
+
+// ---------- 0–4 钩子：日历页，红笔圈住"4"再划掉 ----------
+function sHook(t) {
+  scene(t, -1, 4.2, () => {
+    const k = segB(t, -0.9, 0);
+    if (k <= 0) return;
+    ctx.save(); ctx.globalAlpha *= Math.min(1, k * 1.3);
+    ctx.translate(W / 2, 470 + (1 - eo(k)) * -260); ctx.rotate(-.03);
+    const ox = -250, oy = -300;
+    // n = r*7 + c - 2，第一行的"4"在 c = 6；字心在基线往上约 9px
+    const col4x = 60 + 6 * 60, row1y = 150;
+    paperCard(ox, oy, 500, 600, 0, 1, (w, h) => {
+      pText('MON  ·  3 月', 36, 60, 26, { color: C.pInk2, ls: 4 });
+      line(36, 78, w - 36, 78, C.pInk3, 1.5);
+      for (let r = 0; r < 5; r++) for (let c = 0; c < 7; c++) {
+        const n = r * 7 + c - 2;
+        pText(n > 0 && n <= 31 ? String(n) : '', 60 + c * 60, 150 + r * 86, 30,
+          { align: 'center', color: n === 4 ? C.seal : C.pInk, weight: n === 4 ? 700 : 400 });
+      }
+      pText('示意', w - 30, h - 24, 16, { align: 'right', color: C.pInk2, font: SANS });
+    }, { shadow: 60 });
+    penLoop(ox + col4x, oy + row1y - 9, 34, 30, segB(t, 1.0, 2.0), -.05);
+    penSlash(ox + col4x - 40, oy + row1y + 20, ox + col4x + 42, oy + row1y - 30, segB(t, 2.0, 2.7));
+    ctx.restore();
+  }, { fi: .01, fo: .5 });
+}
+
+// ---------- 14–30 场景：七张"明天开始"便签，最后被抽走 ----------
+const DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+function sNotes(t) {
+  scene(t, 13.6, 30.6, () => {
+    const pulled = segB(t, 26.4, 28.2);
+    DAYS.forEach((d, i) => {
+      const drop = eob(segB(t, 14.3 + i * 0.55, 15.1 + i * 0.55));
+      if (drop <= 0) return;
+      const x = 250 + i * 205, rot = (i - 3) * .018;
+      ctx.save(); ctx.globalAlpha *= 1 - pulled;
+      ctx.translate(x + pulled * (i - 3) * 90, 250 + (1 - drop) * -300 + pulled * -160);
+      ctx.rotate(rot + pulled * (i - 3) * .05);
+      paperCard(-92, 0, 184, 250, 0, 1, (w, h) => {
+        pText(d, w / 2, 62, 26, { align: 'center', color: C.pInk2, ls: 4 });
+        line(28, 84, w - 28, 84, C.pInk3, 1.5);
+        pText('明天', w / 2, 150, 40, { align: 'center', font: SERIF, weight: 900 });
+        pText('开始', w / 2, 200, 40, { align: 'center', font: SERIF, weight: 900 });
+      }, { shadow: 30 });
+      ctx.restore();
+    });
+    // 手在便签下方扫过，不压住文字
+    const hand = segB(t, 25.6, 27.4);
+    if (hand > 0 && pulled < 1) {
+      ctx.save(); ctx.globalAlpha *= hand * (1 - Math.max(0, pulled * 2 - 1));
+      const hx = 960 + (1 - eo(hand)) * 700;
+      ctx.fillStyle = 'rgba(232,190,150,0.9)';
+      ctx.translate(hx, 574); ctx.rotate(-.1);
+      ctx.beginPath(); ctx.moveTo(116, 5); ctx.lineTo(44, -10);
+      ctx.quadraticCurveTo(15, -37, -12, -35);
+      ctx.lineTo(-37, -41); ctx.quadraticCurveTo(-49, -40, -43, -31);
+      ctx.lineTo(-19, -17); ctx.lineTo(-89, -27);
+      ctx.quadraticCurveTo(-108, -27, -99, -16); ctx.lineTo(-36, -2);
+      ctx.lineTo(-89, -9); ctx.quadraticCurveTo(-103, -8, -94, 1);
+      ctx.lineTo(-40, 14); ctx.quadraticCurveTo(-20, 32, 23, 29);
+      ctx.lineTo(116, 46); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+    const empty = eo(segB(t, 28.0, 28.8));
+    if (empty > 0) {
+      ctx.save(); ctx.globalAlpha *= empty;
+      ctx.setLineDash([8, 8]); ctx.strokeStyle = 'rgba(242,237,227,0.4)'; ctx.lineWidth = 2;
+      rrect(810, 300, 300, 250, 8); ctx.stroke(); ctx.setLineDash([]);
+      txt('空的', 960, 440, { size: 32, color: C.ink3, font: SERIF });
+      ctx.restore();
+    }
+  }, { fi: .4 });
+}
+
+// ---------- 选择卡 ----------
+// choiceCard 内部：big 基线在卡心下 46，sub 基线在下 104
+function pairRow(t, a0, y, leftBig, leftSub, rightBig, rightSub) {
+  choiceCard(640, y, segB(t, a0, a0 + .6), '#7FA6E0', '127,166,224', 'A', leftBig, leftSub, t, 0);
+  choiceCard(1280, y, segB(t, a0 + .2, a0 + .8), '#E8A87C', '232,168,124', 'B', rightBig, rightSub, t, 0);
+}
+function sBet1(t) {
+  scene(t, 29.6, 46.4, () => {
+    txtIn('先别划走 · 猜一个', W / 2, 250, segB(t, 30.2, 30.9), { size: 52, weight: 900, ls: 6 });
+    txtIn("Don't scroll. Make a guess.", W / 2, 300, segB(t, 30.4, 31.1), { size: 26, italic: true, font: LATIN, color: C.ink2 });
+    pairRow(t, 31.0, 600, '现在 100', '马上拿到', '明天 110', '多等一天');
+    const dim = segB(t, 44, 45.2);
+    if (dim > 0) { ctx.fillStyle = `rgba(6,6,26,${(.55 * dim).toFixed(3)})`; ctx.fillRect(0, 150, W, 720); }
+  }, { fi: .4, fo: .4 });
+}
+function sBet2(t) {
+  scene(t, 45.6, 62.4, () => {
+    txtIn('数字没变，时间变了', W / 2, 250, segB(t, 46.2, 46.9), { size: 52, weight: 900, ls: 6 });
+    txtIn('Same numbers. Different time.', W / 2, 300, segB(t, 46.4, 47.1), { size: 26, italic: true, font: LATIN, color: C.ink2 });
+    pairRow(t, 47.0, 600, '30 天后 100', '等一个月', '31 天后 110', '再多等一天');
+    const dim = segB(t, 60, 61.2);
+    if (dim > 0) { ctx.fillStyle = `rgba(6,6,26,${(.55 * dim).toFixed(3)})`; ctx.fillRect(0, 150, W, 720); }
+  }, { fi: .4, fo: .4 });
+}
+
+// ---------- 62–78 对质：四张卡缩到一屏，红笔依次圈三个地方 ----------
+function sConfront(t) {
+  scene(t, 61.6, 78.4, () => {
+    const S = .72, CY = 470, rows = [300, 660];
+    const sx = x => W / 2 + (x - W / 2) * S, sy = y => CY + (y - CY) * S;
+    ctx.save(); ctx.translate(W / 2, CY); ctx.scale(S, S); ctx.translate(-W / 2, -CY);
+    pairRow(t, 60, rows[0], '现在 100', '马上拿到', '明天 110', '多等一天');
+    pairRow(t, 60, rows[1], '30 天后 100', '等一个月', '31 天后 110', '再多等一天');
+    ctx.restore();
+    // 圈的中心从卡内文字基线换算：big 字心在基线上约 16px，sub 字心约 9px
+    const ring = (col, row, dy, rx, ry, a0, a1, tilt) =>
+      penLoop(sx(col), sy(rows[row] + dy), rx, ry, segB(t, a0, a1), tilt);
+    ring(1280, 0, 46 - 16, 100, 28, 63.0, 64.2, -.03);   // 上排 110
+    ring(1280, 1, 46 - 16, 118, 28, 64.4, 65.6, .02);    // 下排 110
+    ring(640, 0, 46 - 16, 100, 28, 66.6, 67.8, .03);     // 上排 100
+    ring(640, 1, 46 - 16, 124, 28, 68.0, 69.2, -.02);    // 下排 100
+    ring(1280, 0, 104 - 9, 72, 20, 70.2, 71.4, -.04);    // 上排 多等一天
+    ring(1280, 1, 104 - 9, 84, 20, 71.6, 72.8, .03);     // 下排 再多等一天
+  }, { fi: .4, fo: .4 });
+}
+
+// ---------- 78–94 揭晓：纸卡翻上来盖住选择卡 ----------
+function sReveal(t) {
+  scene(t, 77.6, 94.4, () => {
+    const e = eob(segB(t, 78, 79.2));
+    if (e <= 0) return;
+    paperCard(460, 150 + (1 - e) * 500, 1000, 620, -.012, 1, (w, h) => {
+      pText('第 78 拍', 60, 70, 22, { color: C.pInk2, ls: 4 });
+      line(60, 92, w - 60, 92, C.pInk3, 1.5);
+      pText('如果你先选 A，再选 B', w / 2, 250, 65, { align: 'center', font: SERIF, weight: 900 });
+      pText('你的偏好反转了', w / 2, 370, 72, { align: 'center', font: SERIF, weight: 900 });
+      pText('A first, then B? Your preference reversed.', w / 2, 440, 28, { align: 'center', italic: true, color: C.pInk2 });
+      const cite = eo(segB(t, 90, 91));
+      if (cite > 0) pText('Kirby & Herrnstein, Psychological Science, 1995', w / 2, 520, 24, { align: 'center', color: C.pInk2, alpha: cite });
+    }, { shadow: 60 });
+  }, { fi: .3, fo: .5 });
+}
+
+// ---------- 94–112 证据：三张纸卡依次滑入 ----------
+const EVIDENCE = [
+  { a0: 94, a1: 100.4,
+    big: '36 人里，34 人',
+    lines: ['用真钱做选择。两个奖励的等待同时缩短，', '34 人从大的、晚的，改选了小的、早的。'],
+    foot: 'Kirby & Herrnstein, Psychological Science, 1995' },
+  { a0: 100, a1: 106.4,
+    big: '99 人先选了健康的',
+    lines: ['200 名上班族，先选一周后要吃的零食。', '先选健康零食的 99 人里，70 人一周后当面改成了不健康的。', '反过来的只有 5 人。'],
+    foot: 'Read & van Leeuwen, 1998 · Table 1 复算' },
+  { a0: 106, a1: 112.4,
+    big: '1 个，还是 2 个',
+    lines: ['今天 1 个苹果，明天 2 个。', '一年后 1 个，一年零一天 2 个。', '有人会要今天那一个。没人会要一年后那一个。'],
+    foot: 'Thaler, Economics Letters, 1981, p.203 · 示意，非实验数据' }
+];
+function sEvidence(t) {
+  scene(t, 93.6, 112.6, () => {
+    EVIDENCE.forEach((d, i) => {
+      const k = winB(t, d.a0, d.a1, .5, .4);
+      if (k <= 0) return;
+      const slide = eob(segB(t, d.a0, d.a0 + 1));
+      ctx.save(); ctx.globalAlpha *= k;
+      paperCard(360 + (1 - slide) * 900, 150, 1200, 660, .01 * (i - 1), 1, (w, h) => {
+        pText(d.big, w / 2, 200, 78, { align: 'center', font: SERIF, weight: 900 });
+        line(160, 240, w - 160, 240, C.pInk3, 1.5);
+        d.lines.forEach((s, j) => pText(s, w / 2, 330 + j * 56, 32, { align: 'center' }));
+        pText(d.foot, w / 2, h - 70, 24, { align: 'center', color: C.pInk2 });
+        pText('原文', w - 40, h - 30, 18, { align: 'right', color: C.pInk2, font: SANS });
+      }, { shadow: 50 });
+      ctx.restore();
+    });
+  }, { fi: .4, fo: .4 });
+}
+
+// ---------- 112–128 机制：近处陡、远处平的曲线 ----------
+function sCurve(t) {
+  scene(t, 111.6, 128.6, () => {
+    const x0 = 360, x1 = 1560, y0 = 690, y1 = 230;
+    const f = u => 1 / (1 + 6 * u);                 // 示意曲线，不标公式
+    const drawn = segB(t, 112.4, 115.6);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(242,237,227,0.35)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x0, y1 - 40); ctx.lineTo(x0, y0); ctx.lineTo(x1 + 40, y0); ctx.stroke();
+    txt('现在', x0, y0 + 44, { size: 24, color: C.ink3 });
+    txt('越远越不在意', x1 - 40, y0 + 44, { size: 24, color: C.ink3, align: 'right' });
+    if (drawn > 0) {
+      ctx.strokeStyle = C.gold; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath();
+      const n = Math.max(2, Math.floor(drawn * 80));
+      for (let i = 0; i <= n; i++) {
+        const u = i / 80;
+        const x = x0 + u * (x1 - x0), y = y0 - f(u) * (y0 - y1);
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.stroke();
+    }
+    [[1 / 31, '离现在 1 天', 116.2], [30 / 31, '离现在 30 天', 117.4]].forEach(([u, label, a0]) => {
+      const k = eo(segB(t, a0, a0 + .8));
+      if (k <= 0 || drawn < u) return;
+      const x = x0 + u * (x1 - x0), y = y0 - f(u) * (y0 - y1);
+      ctx.save(); ctx.globalAlpha *= k;
+      circle(x, y, 9, C.ink, C.gold, 3);
+      txt(label, x + 24, y - 38, { size: 26, color: C.ink, align: 'left' });
+      ctx.restore();
+    });
+    const dot = eo(segB(t, 118.6, 119.4));
+    if (dot > 0) {
+      const u = 1 / 31, x = x0 + u * (x1 - x0), y = y0 - f(u) * (y0 - y1);
+      penLoop(x, y, 26, 26, dot, 0);
+    }
+    ctx.restore();
+  }, { fi: .4, fo: .4 });
+}
+
+// ---------- 128–146 工具：可撕的决策卡 ----------
+function sTool(t) {
+  scene(t, 127.6, 144.4, () => {
+    const e = eob(segB(t, 128, 129.4));
+    if (e <= 0) return;
+    paperCard(360, 130 + (1 - e) * 500, 1200, 700, -.008, 1, (w, h) => {
+      pText('决策卡', 70, 90, 30, { color: C.pInk2, ls: 6, font: SERIF });
+      line(70, 116, w - 70, 116, C.pInk3, 1.5);
+      const cut = segB(t, 130.4, 131.6);
+      pText('要不要现在做', 90, 250, 52, { font: SERIF, weight: 700, color: cut > .5 ? C.pInk2 : C.pInk });
+      if (cut > 0) { ctx.strokeStyle = PEN; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(80, 236); ctx.lineTo(80 + 430 * cut, 210); ctx.stroke(); }
+      const k2 = eo(segB(t, 132.2, 133.4));
+      if (k2 > 0) {
+        ctx.save(); ctx.globalAlpha *= k2;
+        pText('30 天后的我，会选哪一个', 90, 380, 56, { font: SERIF, weight: 900 });
+        ctx.fillStyle = 'rgba(181,58,47,0.8)'; ctx.fillRect(90, 400, 760 * k2, 5);
+        ctx.restore();
+      }
+      pText('这是从上面的实验里推出来的问法，不是某项研究的结论', 70, h - 50, 22, { color: C.pInk2 });
+    }, { shadow: 50 });
+  }, { fi: .4, fo: .5 });
+}
+
+// ---------- 158–163 结尾问题卡 ----------
+function sQuestion(t) {
+  scene(t, 158, 162.2, () => {
+    const k = eo(segB(t, 158.2, 159.2));
+    txtIn('你上个月说的那个明天', W / 2, 430, k, { size: 72, weight: 900, font: SERIF });
+    txtIn('是哪一天', W / 2, 540, eo(segB(t, 158.8, 159.8)), { size: 96, weight: 900, font: SERIF, metal: true });
+    txtIn('The tomorrow you named last month. Which day was it?', W / 2, 620, eo(segB(t, 159.4, 160.4)), { size: 30, italic: true, font: LATIN, color: C.ink2 });
+  }, { fi: .4, fo: .4 });
+}
+
+EP.SCENES.push(
+  sHook,
+  t => titleCard(t, 4, 14, '为什么"明天开始"永远不会来', '双曲贴现', 'Hyperbolic Discounting', ''),
+  sNotes, sBet1, sBet2, sConfront, sReveal, sEvidence, sCurve, sTool,
+  t => scene(t, 146, 158, () => {
+    const k = eo(segB(t, 146, 147));
+    txtIn('你不缺自制力', W / 2, 400, k, { size: 76, weight: 900, font: SERIF });
+    txtIn("You don't lack self-control.", W / 2, 465, k, { size: 32, font: LATIN, italic: true });
+    const accent = eo(segB(t, 151.5, 152));
+    txtIn('你只是永远站在「现在」这一边', W / 2, 605, accent, { size: 86, weight: 900, font: SERIF, metal: true });
+    txtIn('You just always stand on the side of now.', W / 2, 678, accent, { size: 32, font: LATIN, italic: true });
+  }),
+  sQuestion,
+  t => endNote(t, 163, [
+    'Kirby & Herrnstein, Psychological Science, 1995',
+    'Read & van Leeuwen, Organizational Behavior and Human Decision Processes, 1998',
+    'Thaler, Economics Letters, 1981'
+  ])
+);
+</script></body></html>

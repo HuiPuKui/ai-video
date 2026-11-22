@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>试片 · 明天开始</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;width:100vw;height:auto}</style></head>
+<body><canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// 16 拍试片：只验证三个最吃布局的画面。0–4 钩子日历，4–10 两张选择卡，10–16 四卡对质。
+const EP = { BEATS: 16, NO: '01', SCENES: [], TOPLABELS: [], NOTES: [],
+  SUBS: [
+    [0.2, 3.0, '你答应过自己多少次「明天开始」', 'How many times did you promise yourself "tomorrow"?'],
+    [4.2, 7.6, '现在 100，还是明天 110', '100 now, or 110 tomorrow?'],
+    [8.2, 12.0, '差额都是 10，多等的都只是 1 天', 'The gap is 10. The extra wait is one day.'],
+    [12.2, 15.6, '可你的两个答案，对不上', "But your two answers don't agree."]
+  ] };
+</script>
+<script src="kit/lib.js"></script>
+<script>
+const PEN = 'rgba(214,40,40,0.9)';
+// 红笔圈：从 a0 起笔，绕一圈多一点，落点微微错开，看起来是手画的
+function penLoop(cx, cy, rx, ry, k, tilt) {
+  if (k <= 0) return;
+  ctx.save();
+  ctx.strokeStyle = PEN; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath();
+  const n = Math.max(2, Math.floor(k * 60));
+  for (let i = 0; i <= n; i++) {
+    const u = i / 60, a = -1.15 + u * 7.1;
+    const wob = 1 + Math.sin(u * 9.4) * .05;
+    const px = cx + Math.cos(a) * rx * wob, py = cy + Math.sin(a) * ry * wob;
+    const ca = Math.cos(tilt), sa = Math.sin(tilt);
+    const qx = cx + (px - cx) * ca - (py - cy) * sa, qy = cy + (px - cx) * sa + (py - cy) * ca;
+    i ? ctx.lineTo(qx, qy) : ctx.moveTo(qx, qy);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function penSlash(x1, y1, x2, y2, k) {
+  if (k <= 0) return;
+  ctx.save(); ctx.strokeStyle = PEN; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + (x2 - x1) * k, y1 + (y2 - y1) * k); ctx.stroke();
+  ctx.restore();
+}
+// 钩子：日历页。红圈围的是"4"那一格，坐标与画数字用的是同一组
+function calPage(t, x, y, k) {
+  if (k <= 0) return;
+  ctx.save(); ctx.globalAlpha *= Math.min(1, k * 1.3);
+  ctx.translate(x, y + (1 - eo(k)) * -260); ctx.rotate(-.03);
+  const ox = -250, oy = -300, cw = 500, ch = 600;
+  // n = r*7 + c - 2，所以第一行的"4"在 c = 6（最右一列）；字心 y 是基线往上约 9px
+  const col4x = 60 + 6 * 60, row1y = 150;
+  paperCard(ox, oy, cw, ch, 0, 1, (w, h) => {
+    pText('MON  ·  3 月', 36, 60, 26, { color: C.pInk2, ls: 4 });
+    line(36, 78, w - 36, 78, C.pInk3, 1.5);
+    for (let r = 0; r < 5; r++) for (let c = 0; c < 7; c++) {
+      const n = r * 7 + c - 2;
+      pText(n > 0 && n <= 31 ? String(n) : '', 60 + c * 60, 150 + r * 86, 30, { align: 'center', color: n === 4 ? C.seal : C.pInk, weight: n === 4 ? 700 : 400 });
+    }
+    pText('示意', w - 30, h - 24, 16, { align: 'right', color: C.pInk2, font: SANS });
+  }, { shadow: 60 });
+  const pen = segB(t, 1.0, 2.0);
+  penLoop(ox + col4x, oy + row1y - 9, 34, 30, pen, -.05);
+  penSlash(ox + col4x - 40, oy + row1y + 20, ox + col4x + 42, oy + row1y - 30, segB(t, 2.0, 2.7));
+  ctx.restore();
+}
+// 选择卡的文字位置与 choiceCard 内部一致：big 在卡心下 46，sub 在下 104
+function pair(t, a0, yTop, leftBig, leftSub, rightBig, rightSub) {
+  choiceCard(640, yTop, segB(t, a0, a0 + .6), '#7FA6E0', '127,166,224', 'A', leftBig, leftSub, t, 0);
+  choiceCard(1280, yTop, segB(t, a0 + .2, a0 + .8), '#E8A87C', '232,168,124', 'B', rightBig, rightSub, t, 0);
+}
+function scenes(t) {
+  // 0–4：钩子。日历压在字幕区之上（卡底 y 770，字幕带从 y 860 起）
+  scene(t, -1, 4.2, () => calPage(t, W / 2, 470, segB(t, 0.1, 0.9)), { fi: .01, fo: .5 });
+  // 4–10：两张选择卡
+  scene(t, 3.8, 10.2, () => {
+    txtIn('先别划走 · 猜一个', W / 2, 250, segB(t, 4.0, 4.6), { size: 52, weight: 900, ls: 6 });
+    txtIn("Don't scroll. Make a guess.", W / 2, 300, segB(t, 4.1, 4.7), { size: 26, italic: true, font: LATIN, color: C.ink2 });
+    pair(t, 4.4, 600, '现在 100', '马上拿到', '明天 110', '多等一天');
+  }, { fo: .4 });
+  // 10–16：四卡对质。缩到 0.8，以 y 500 为中心；屏幕上卡心在 y 360 / 640，卡底 y 760，离字幕带 100px
+  // 红圈在缩放之外画，坐标用同一个换算函数 sy() 从卡内文字位置算出来
+  scene(t, 9.8, 16.2, () => {
+    const S = .8, CY = 500, rows = [325, 675];
+    const sx = x => W / 2 + (x - W / 2) * S, sy = y => CY + (y - CY) * S;
+    ctx.save(); ctx.translate(W / 2, CY); ctx.scale(S, S); ctx.translate(-W / 2, -CY);
+    pair(t, 9.6, rows[0], '现在 100', '马上拿到', '明天 110', '多等一天');
+    pair(t, 9.6, rows[1], '30 天后 100', '等一个月', '31 天后 110', '再多等一天');
+    ctx.restore();
+    // big 字基线在卡心下 46、字心约再往上 16；sub 基线在下 104、字心往上 9
+    penLoop(sx(1280), sy(rows[0] + 46 - 16), 104, 30, segB(t, 11.2, 12.1), -.04);  // 明天 110
+    penLoop(sx(1280), sy(rows[1] + 104 - 9), 78, 22, segB(t, 12.1, 13.0), .03);    // 再多等一天
+  }, { fi: .4, fo: .3 });
+}
+EP.SCENES.push(scenes);
+</script></body></html>
