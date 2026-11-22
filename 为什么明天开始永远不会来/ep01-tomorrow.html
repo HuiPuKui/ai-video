@@ -16,10 +16,6 @@ const EP = {
     [112, 128, '为什么会这样'],
     [128, 144.4, '一个问法']
   ],
-  NOTES: [
-    [14, 30, '示意'],
-    [106, 112, '示意，不是实验数据 · Thaler, 1981']
-  ],
   SUBS: [
     [0.2, 2, '你答应过自己多少次「明天开始」', 'How many times did you promise yourself "tomorrow"?'],
     [2, 4, '一次都没算数', 'Not once did it count.'],
@@ -99,7 +95,6 @@ function sHook(t) {
         pText(n > 0 && n <= 31 ? String(n) : '', 60 + c * 60, 150 + r * 86, 30,
           { align: 'center', color: n === 4 ? C.seal : C.pInk, weight: n === 4 ? 700 : 400 });
       }
-      pText('示意', w - 30, h - 24, 16, { align: 'right', color: C.pInk2, font: SANS });
     }, { shadow: 60 });
     penLoop(ox + col4x, oy + row1y - 9, 34, 30, segB(t, 1.0, 2.0), -.05);
     penSlash(ox + col4x - 40, oy + row1y + 20, ox + col4x + 42, oy + row1y - 30, segB(t, 2.0, 2.7));
@@ -231,7 +226,7 @@ const EVIDENCE = [
   { a0: 106, a1: 112.4,
     big: '1 个，还是 2 个',
     lines: ['今天 1 个苹果，明天 2 个。', '一年后 1 个，一年零一天 2 个。', '有人会要今天那一个。没人会要一年后那一个。'],
-    foot: 'Thaler, Economics Letters, 1981, p.203 · 示意，非实验数据' }
+    foot: 'Thaler, Economics Letters, 1981, p.203' }
 ];
 function sEvidence(t) {
   scene(t, 93.6, 112.6, () => {
@@ -310,7 +305,6 @@ function sTool(t) {
         ctx.fillStyle = 'rgba(181,58,47,0.8)'; ctx.fillRect(90, 400, 760 * k2, 5);
         ctx.restore();
       }
-      pText('这是从上面的实验里推出来的问法，不是某项研究的结论', 70, h - 50, 22, { color: C.pInk2 });
     }, { shadow: 50 });
   }, { fi: .4, fo: .5 });
 }
