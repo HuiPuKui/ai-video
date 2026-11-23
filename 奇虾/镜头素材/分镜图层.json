@@ -1,0 +1,999 @@
+{
+  "竖屏/01_先选一头.jpg": {
+    "time": "0–3 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/01_附肢石板.png",
+        "center": [
+          0.51,
+          0.47
+        ],
+        "width": 1.05,
+        "rotation": 14,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/01_铅笔.png",
+        "center": [
+          0.93,
+          0.6
+        ],
+        "width": 0.43,
+        "rotation": -28,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "竖屏/02_关节与刺.jpg": {
+    "time": "3–9 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/02_关节特写.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 1.98,
+        "rotation": 12,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "竖屏/03_历史记录.jpg": {
+    "time": "9–15 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/01_附肢石板.png",
+        "center": [
+          0.52,
+          0.34
+        ],
+        "width": 0.91,
+        "rotation": 10,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/03_历史记录卡.png",
+        "center": [
+          0.53,
+          0.66
+        ],
+        "width": 0.72,
+        "rotation": -4,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "竖屏/04_第二块标本.jpg": {
+    "time": "15–22 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_纸岩右.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_纸岩左.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_对照片.png",
+        "center": [
+          0.24,
+          0.17
+        ],
+        "width": 0.33,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_清理标注.png",
+        "center": [
+          0.53,
+          0.81
+        ],
+        "width": 0.76,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "竖屏/05a_先露左侧.jpg": {
+    "time": "22–26 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_纸岩右.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_左侧根部描线.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_清理标注.png",
+        "center": [
+          0.53,
+          0.81
+        ],
+        "width": 0.76,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "竖屏/05b_两侧连接.jpg": {
+    "time": "26–29 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/05_左侧根部描线.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_右侧根部描线.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_清理标注.png",
+        "center": [
+          0.53,
+          0.81
+        ],
+        "width": 0.76,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "竖屏/06_显出附肢.jpg": {
+    "time": "29–35 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/06_半透明描图纸.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_左侧根部描线.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_右侧根部描线.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/06_附肢描图.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.86,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/06_物种标注.png",
+        "center": [
+          0.53,
+          0.81
+        ],
+        "width": 0.76,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "竖屏/07_生态复原.jpg": {
+    "time": "35–42 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/寒武纪海底.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/奇虾三维游姿.png",
+        "center": [
+          0.5,
+          0.52
+        ],
+        "width": 0.94,
+        "rotation": 25,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_前景悬浮颗粒.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 1.1,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_复原标注.png",
+        "center": [
+          0.48,
+          0.81
+        ],
+        "width": 0.74,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "竖屏/08a_转身.jpg": {
+    "time": "42–43 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/寒武纪海底.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/奇虾三维转身.png",
+        "center": [
+          0.5,
+          0.52
+        ],
+        "width": 0.94,
+        "rotation": 25,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_前景悬浮颗粒.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 1.1,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_复原标注.png",
+        "center": [
+          0.48,
+          0.81
+        ],
+        "width": 0.74,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "竖屏/08b_叠回开场.jpg": {
+    "time": "43–44 s",
+    "size": [
+      1080,
+      1920
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/01_附肢石板.png",
+        "center": [
+          0.51,
+          0.47
+        ],
+        "width": 1.05,
+        "rotation": 14,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/01_铅笔.png",
+        "center": [
+          0.93,
+          0.6
+        ],
+        "width": 0.43,
+        "rotation": -28,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "横屏/01_先选一头.jpg": {
+    "time": "0–3 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/01_附肢石板.png",
+        "center": [
+          0.52,
+          0.51
+        ],
+        "width": 0.65,
+        "rotation": 5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/01_铅笔.png",
+        "center": [
+          0.82,
+          0.72
+        ],
+        "width": 0.24,
+        "rotation": -25,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "横屏/02_关节与刺.jpg": {
+    "time": "3–9 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/02_关节特写.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 1.12,
+        "rotation": 3,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "横屏/03_历史记录.jpg": {
+    "time": "9–15 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/01_附肢石板.png",
+        "center": [
+          0.32,
+          0.47
+        ],
+        "width": 0.51,
+        "rotation": 10,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/03_历史记录卡.png",
+        "center": [
+          0.74,
+          0.55
+        ],
+        "width": 0.31,
+        "rotation": -4,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  },
+  "横屏/04_第二块标本.jpg": {
+    "time": "15–22 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_纸岩右.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_纸岩左.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_对照片.png",
+        "center": [
+          0.24,
+          0.45
+        ],
+        "width": 0.26,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_清理标注.png",
+        "center": [
+          0.27,
+          0.72
+        ],
+        "width": 0.34,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "横屏/05a_先露左侧.jpg": {
+    "time": "22–26 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_纸岩右.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_左侧根部描线.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_对照片.png",
+        "center": [
+          0.24,
+          0.45
+        ],
+        "width": 0.26,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_清理标注.png",
+        "center": [
+          0.27,
+          0.72
+        ],
+        "width": 0.34,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "横屏/05b_两侧连接.jpg": {
+    "time": "26–29 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/05_左侧根部描线.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_右侧根部描线.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_对照片.png",
+        "center": [
+          0.24,
+          0.45
+        ],
+        "width": 0.26,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/04_清理标注.png",
+        "center": [
+          0.27,
+          0.72
+        ],
+        "width": 0.34,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "横屏/06_显出附肢.jpg": {
+    "time": "29–35 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/04_头部化石.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/06_半透明描图纸.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_左侧根部描线.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/05_右侧根部描线.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/06_附肢描图.png",
+        "center": [
+          0.65,
+          0.47
+        ],
+        "width": 0.43,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/04_对照片.png",
+        "center": [
+          0.24,
+          0.45
+        ],
+        "width": 0.26,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/06_物种标注.png",
+        "center": [
+          0.27,
+          0.72
+        ],
+        "width": 0.34,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "横屏/07_生态复原.jpg": {
+    "time": "35–42 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/寒武纪海底.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/奇虾三维游姿.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.66,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_前景悬浮颗粒.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 1.1,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_复原标注.png",
+        "center": [
+          0.24,
+          0.82
+        ],
+        "width": 0.32,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "横屏/08a_转身.jpg": {
+    "time": "42–43 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/寒武纪海底.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/奇虾三维转身.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 0.66,
+        "rotation": -5,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_前景悬浮颗粒.png",
+        "center": [
+          0.5,
+          0.48
+        ],
+        "width": 1.1,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      },
+      {
+        "file": "可动图层/07_复原标注.png",
+        "center": [
+          0.24,
+          0.82
+        ],
+        "width": 0.32,
+        "rotation": 0,
+        "opacity": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "横屏/08b_叠回开场.jpg": {
+    "time": "43–44 s",
+    "size": [
+      1920,
+      1080
+    ],
+    "layers": [
+      {
+        "file": "底图/桌面.png",
+        "fit": "cover"
+      },
+      {
+        "file": "可动图层/01_附肢石板.png",
+        "center": [
+          0.52,
+          0.51
+        ],
+        "width": 0.65,
+        "rotation": 5,
+        "opacity": 1,
+        "shadow": true
+      },
+      {
+        "file": "可动图层/01_铅笔.png",
+        "center": [
+          0.82,
+          0.72
+        ],
+        "width": 0.24,
+        "rotation": -25,
+        "opacity": 1,
+        "shadow": true
+      }
+    ]
+  }
+}
