@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EP01 假如手机发烫每秒翻倍 · 低多边形电影级 3D</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <canvas id="webgl-canvas"></canvas>
+  <div id="vignette"></div>
+  <div id="flash-overlay"></div>
+
+  <!-- Minimalist Top-Left Telemetry + Crisp Subtitle (82% Open 3D Stage!) -->
+  <div id="hud-layer">
+    <div id="brand-tag">@冰冷酒_</div>
+
+    <div id="tl-hud">
+      <div class="tl-row-top">
+        <div id="tl-time">第 0 秒</div>
+        <div id="tl-pips">
+          <div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+          <div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div id="tl-power">5 瓦</div>
+      <div id="tl-compare">≈ 正常高画质排位</div>
+      <div id="tl-rule-pill">手机发烫 每秒翻倍</div>
+    </div>
+
+    <div id="tr-pill">▶▶ 指数失控</div>
+
+    <div id="subtitle-box">
+      <div id="subtitle-text"></div>
+    </div>
+  </div>
+
+  <!-- Dedicated Cover Overlay -->
+  <div id="cover-layer"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../node_modules/three/build/three.module.js",
+        "three/addons/": "../node_modules/three/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="./scene.js"></script>
+</body>
+</html>
