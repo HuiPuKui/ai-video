@@ -1,0 +1,8 @@
+{
+  "name": "ep02-snooze-alarm",
+  "version": "1.0.0",
+  "description": "EP02: What if every snooze doubles your alarm intensity? (Pure-code Three.js 3D)",
+  "dependencies": {
+    "three": "^0.187.0"
+  }
+}

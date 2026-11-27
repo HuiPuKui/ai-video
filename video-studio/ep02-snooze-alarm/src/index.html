@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EP02 假如每按一次贪睡闹钟声强都翻倍 · 3D 脑洞喜剧</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <canvas id="webgl-canvas"></canvas>
+  <div id="vignette"></div>
+  <div id="flash-overlay"></div>
+
+  <!-- Clean Viral HUD Layer (Modeled after 273万 假如实验室WhatIf!) -->
+  <div id="hud-layer">
+    <div id="brand-tag">@冰冷酒_</div>
+
+    <!-- Opening 2.6s Big Centered Title (Zero End-Spoiler!) -->
+    <div id="intro-title">
+      <div class="it-line1">假如每按一次贪睡</div>
+      <div class="it-line2">闹钟声强都翻倍</div>
+    </div>
+
+    <div id="tl-hud">
+      <div class="tl-row-top">
+        <div id="tl-time">按贪睡 1 次</div>
+        <div id="tl-pips">
+          <div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+          <div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div id="tl-power">70 分贝</div>
+      <div id="tl-compare">≈ 普通手机闹钟</div>
+      <div id="tl-rule-pill">每按一次贪睡 声强 ×2</div>
+    </div>
+
+    <div id="tr-pill">⚡ ×100万倍</div>
+
+    <!-- Space Deadpan Callout Pointer: "他还在按稍后提醒" -->
+    <div id="space-callout">
+      <div class="sc-label">他还在按稍后提醒</div>
+      <svg class="sc-svg" viewBox="0 0 220 140" fill="none">
+        <path d="M 190 12 L 105 12 L 24 122" stroke="#fde047" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="122" r="9" fill="#f97316" stroke="#ffffff" stroke-width="4"/>
+      </svg>
+    </div>
+
+    <div id="subtitle-box">
+      <div id="subtitle-text"></div>
+    </div>
+  </div>
+
+  <!-- Dedicated 4-Ratio Cover Overlay -->
+  <div id="cover-layer"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../../ep01-phone-heat/node_modules/three/build/three.module.js",
+        "three/addons/": "../../ep01-phone-heat/node_modules/three/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="./scene.js"></script>
+</body>
+</html>

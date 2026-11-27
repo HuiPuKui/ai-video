@@ -1,5 +1,8 @@
 # 依赖与构建产物
 node_modules/
+.venv/
+__pycache__/
+*.pyc
 dist/
 build/
 out/
